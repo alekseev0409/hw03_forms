@@ -9,7 +9,7 @@ class SignUp(CreateView):
     success_url = reverse_lazy('posts:index')
     template_name = 'users/signup.html'
 
+
 class ChangePassword(PasswordChangeView):
-    template_name='users/password_change_form.html'
-    success_url=reverse_lazy('users:PasswordChangeDone')
-    
+    template_name = 'users/password_change_form.html'
+    success_url = reverse_lazy('users:PasswordChangeDone')
