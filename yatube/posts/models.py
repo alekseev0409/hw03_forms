@@ -16,7 +16,8 @@ class Group(models.Model):
 
 class Post(models.Model):
     text = models.TextField(verbose_name='Текст поста')
-    pub_date = models.DateTimeField(verbose_name='Дата публикации',auto_now_add=True)
+    pub_date = models.DateTimeField(
+        verbose_name='Дата публикации', auto_now_add=True)
     author = models.ForeignKey(
         User,
         verbose_name='Автор',
@@ -31,6 +32,7 @@ class Post(models.Model):
         null=True,
         on_delete=models.SET_NULL,
         related_name='posts')
+
     class Meta:
         ordering = ['pub_date']
 
