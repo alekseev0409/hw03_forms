@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 
 def index(request):
-    post_list = Post.objects.all()
+    post_list = Post.objects.select_related('group','author')
     paginator = Paginator(post_list, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -19,7 +19,7 @@ def index(request):
 
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
-    posts = group.posts.select_related('author')
+    posts = Post.objects.select_related('author')
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -77,12 +77,11 @@ def post_edit(request, post_id):
     if request.user != post.author:
         return redirect("posts:post_detail", post_id)
     form = PostForm(request.POST or None, instance=post)
-    groups = Group.objects.all()
+    # groups = Group.objects.all()
     if form.is_valid():
         form.save()
         return redirect("posts:post_detail", post_id)
     context = {
-        'groups': groups,
         'is_edit': True,
         'form': form,
     }
